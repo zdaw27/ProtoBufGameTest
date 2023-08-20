@@ -89,10 +89,10 @@ public class GameController : MonoSingleton<GameController>
         StartGame();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDestroy()
     {
-        
+        sessionHandler.StopProcess();
+        battleHandler.StopProcess();
     }
 
     public void ClientObjectsStartMove(int objectID, int x, int y)

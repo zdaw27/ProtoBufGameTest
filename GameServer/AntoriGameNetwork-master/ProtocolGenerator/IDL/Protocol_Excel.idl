@@ -1,0 +1,4 @@
+﻿PACKET Zone_Excel
+	int ZONE_ID
+	string ZONE_NAME
+END

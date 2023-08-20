@@ -12,6 +12,7 @@ public class TcpHandler : TickBase {
     byte[] receiveBuffer;
     NetworkStream networkStream = null;
     public int zone_id = 0;
+    private bool stopProcess = false;
 
     public TcpHandler(TcpClient tcpClient, int zone_id) {
         this.networkStream = tcpClient.GetStream();
@@ -72,6 +73,9 @@ public class TcpHandler : TickBase {
             if (bodyOverflow) {
                 Array.Resize(ref receiveBuffer, Const.RECEIVE_BUFFER_SIZE);
             }
+
+            if (stopProcess)
+                return;
         }
     }
 
@@ -81,6 +85,8 @@ public class TcpHandler : TickBase {
             while (true) {
                 Update();
                 autoEvent.WaitOne();
+                if (stopProcess)
+                    return;
             }
         });
     }
@@ -98,5 +104,10 @@ public class TcpHandler : TickBase {
         });
 
         autoEvent.Set();
+    }
+
+    public void StopProcess()
+    {
+        stopProcess = true;
     }
 }

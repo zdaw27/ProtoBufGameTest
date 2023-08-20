@@ -1,0 +1,37 @@
+﻿PACKET NewBattleUser_REQ_C2B
+	long USER_ID
+	int Level
+	int HP
+	int TODOUserInfo
+END
+
+PACKET NewBattleUser_RES_C2B
+	long ObjectIDList
+	int TODOStatusList
+END
+
+PACKET NewBattleUser_FIN_C2B
+	int ZONE_ID	
+END
+
+PACKET MoveStart_C2B
+	int Direction
+END
+
+PACKET MoveEnd_C2B
+END
+
+PACKET MoveStart_B2C
+	long OBJECT_ID
+	int Direction
+END
+
+PACKET MoveEnd_B2C
+	long OBJECT_ID
+END
+
+PACKET ChangePos_B2C
+	long OBJECT_ID
+	float Pos_x
+	float Pos_y
+END
