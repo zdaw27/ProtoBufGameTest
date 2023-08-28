@@ -8,8 +8,28 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-class ProtocolDispatcher : Singleton<ProtocolDispatcher>{
+class ProtocolDispatcher : MonoSingleton<ProtocolDispatcher>{
     Dictionary<int, Action<IProtocol, TcpHandler>> HandlePool = new Dictionary<int, Action<IProtocol, TcpHandler>>();
+    Queue<ProtocolAction> actionQueue = new Queue<ProtocolAction>();
+
+    struct ProtocolAction
+    {
+        private Action<IProtocol, TcpHandler> action;
+        IProtocol protocol;
+        TcpHandler tcpHandler;
+
+        public ProtocolAction(Action<IProtocol, TcpHandler> action, IProtocol protocol, TcpHandler tcpHandler)
+        {
+            this.action = action;
+            this.protocol = protocol;
+            this.tcpHandler = tcpHandler;
+        }
+
+        public void DoAction()
+        {
+            action.Invoke(protocol, tcpHandler);
+        }
+    }
     
     public void Register() {
         var baseType = typeof(IProtocol);
@@ -22,9 +42,20 @@ class ProtocolDispatcher : Singleton<ProtocolDispatcher>{
 
     public void Dispatch(IProtocol protocol, TcpHandler handler) {
         if (HandlePool.TryGetValue(protocol.GetProtocol_ID(), out var action)) {
-            action(protocol, handler);
+            actionQueue.Enqueue(new ProtocolAction(action, protocol, handler));
         } else {
             Debug.Log("No Protocol ID");
+        }
+    }
+
+    public void Update()
+    {
+        while(actionQueue.Count != 0)
+        {
+            if(actionQueue.TryDequeue(out var protocalAction))
+            {
+                protocalAction.DoAction();
+            }
         }
     }
 
@@ -40,7 +71,8 @@ class ProtocolDispatcher : Singleton<ProtocolDispatcher>{
 
                 TcpClient tcpClient = new TcpClient("127.0.0.1", Const.BATTLE_SERVER_PORT);
 
-                GameController.battleHandler = new TcpHandler(tcpClient, cast.ZONE_ID);
+                GameController.battleHandler = gameObject.AddComponent<TcpHandler>();
+                GameController.battleHandler.InitHandler(tcpClient, cast.ZONE_ID);
 
                 GameController.battleHandler.SendPacket(new NewBattleUser_REQ_C2B {
                     USER_ID = 1,
@@ -60,7 +92,7 @@ class ProtocolDispatcher : Singleton<ProtocolDispatcher>{
                     ZONE_ID = GameController.battleHandler.zone_id,
                 });
 
-                GameController.Instance.ClientObjectSpawn(cast.ObjectIDList);
+                
 
                 Debug.Log("Battle Server Connected!");
             };
@@ -79,6 +111,7 @@ class ProtocolDispatcher : Singleton<ProtocolDispatcher>{
             action = (IProtocol protocol, TcpHandler handler) => {
                 var cast = protocol as ChangePos_B2C;
                 Debug.Log($"Receive : [ChangePos_B2C], OBJECT_ID : {cast.OBJECT_ID}");
+                GameController.Instance.ClientObjectSpawn(cast.OBJECT_ID);
             };
         } else if (dummyProtocol is RestAPI_RES_S2C) {
             action = (IProtocol protocol, TcpHandler handler) => {

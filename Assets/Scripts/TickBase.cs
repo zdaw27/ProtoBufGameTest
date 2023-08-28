@@ -3,8 +3,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using UnityEngine;
 
-public class TickBase {
+public class TickBase : MonoBehaviour{
     ConcurrentQueue<Action> ActionQueue = new ConcurrentQueue<Action>();
 
     protected Stopwatch sw = new Stopwatch();

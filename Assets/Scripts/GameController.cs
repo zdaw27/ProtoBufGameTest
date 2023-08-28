@@ -15,7 +15,7 @@ public class GameController : MonoSingleton<GameController>
     [SerializeField]
     private GameObject clientObjectPrefab;
 
-    private static void StartGame()
+    private void StartGame()
     {
         TcpClient tcpClient = new TcpClient("127.0.0.1", Const.SESSION_SERVER_PORT);
 
@@ -66,7 +66,8 @@ public class GameController : MonoSingleton<GameController>
             }
         });
 
-        sessionHandler = new TcpHandler(tcpClient, 0);
+        sessionHandler = gameObject.AddComponent<TcpHandler>();
+        sessionHandler.InitHandler(tcpClient, 0);
 
         sessionHandler.SendPacket(new Login_REQ_C2S
         {
@@ -80,13 +81,23 @@ public class GameController : MonoSingleton<GameController>
     // Start is called before the first frame update
     void Start()
     {
+        
         if (clientObjects == null)
         {
             clientObjects = new Dictionary<long, ClientObject>();
         }
+        
+        
         ProtocolManager.Instance.Register();
         ProtocolDispatcher.Instance.Register();
         StartGame();
+    }
+
+    async void Spawn()
+    {
+        clientObjects.Add(1, GameObject.Instantiate(clientObjectPrefab).GetComponent<ClientObject>());
+        clientObjects.Add(2, GameObject.Instantiate(clientObjectPrefab).GetComponent<ClientObject>());
+        clientObjects.Add(3, GameObject.Instantiate(clientObjectPrefab).GetComponent<ClientObject>());
     }
 
     private void OnDestroy()
@@ -121,7 +132,7 @@ public class GameController : MonoSingleton<GameController>
 
     public void ClientObjectSpawn(long objectID)
     {
-        if (clientObjects.ContainsKey(objectID))
+        if (!clientObjects.ContainsKey(objectID))
         {
             clientObjects.Add(objectID, GameObject.Instantiate(clientObjectPrefab).GetComponent<ClientObject>());
         }

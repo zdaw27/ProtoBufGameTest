@@ -14,7 +14,8 @@ public class TcpHandler : TickBase {
     public int zone_id = 0;
     private bool stopProcess = false;
 
-    public TcpHandler(TcpClient tcpClient, int zone_id) {
+    public void InitHandler(TcpClient tcpClient, int zone_id)
+    {
         this.networkStream = tcpClient.GetStream();
         receiveBuffer = new byte[Const.RECEIVE_BUFFER_SIZE];
 
