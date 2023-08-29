@@ -4,7 +4,7 @@ using System.Text;
 class Zone_Excel : IProtocol {
 	//COMMON
 	public int PACKET_LENGTH = 0;
-	public int PROTOCOL_ID = 9;
+	public int PROTOCOL_ID = 10;
 	//MEMBER
 	public int ZONE_ID;
 	public string ZONE_NAME;

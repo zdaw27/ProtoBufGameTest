@@ -35,3 +35,7 @@ PACKET ChangePos_B2C
 	float Pos_x
 	float Pos_y
 END
+
+PACKET ClientObejctIDInfo
+	long OBJECT_ID
+END

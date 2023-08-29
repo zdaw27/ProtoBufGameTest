@@ -6,9 +6,7 @@ using System.Text;
 class ProtocolGenerator {
     static int protocol_id = 1;
     public static void Generate() {
-        string rootFolder = Directory.GetCurrentDirectory();
-        rootFolder = rootFolder.Substring(0,
-                    rootFolder.IndexOf(@"\AntoriGameNetwork\", StringComparison.Ordinal) + @"\AntoriGameNetwork\".Length);
+        string rootFolder = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName).FullName;
 
 
         string readFilePath = Path.Combine(rootFolder, "ProtocolGenerator");
