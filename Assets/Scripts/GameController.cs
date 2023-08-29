@@ -17,6 +17,7 @@ public class GameController : MonoSingleton<GameController>
     [SerializeField]
     private GameObject userObjectPrefab;
 
+
     private void StartGame()
     {
         TcpClient tcpClient = new TcpClient("127.0.0.1", Const.SESSION_SERVER_PORT);
@@ -54,31 +55,31 @@ public class GameController : MonoSingleton<GameController>
 
     private void Update()
     {
-        if (battleHandler == null)
+        if (clientObjects.Count == 0)
             return;
 
         Vector2 inputDir = Vector2.zero;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             inputDir += Vector2.up;
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             inputDir += Vector2.down;
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             inputDir += Vector2.right;
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             inputDir += Vector2.left;
         }
 
         inputDir.Normalize();
 
-        if (Vector2.SqrMagnitude(inputDir) > 0f)
+        if (inputDir.magnitude > 0f)
         {
             battleHandler.SendPacket(new MoveStart_C2B
             {

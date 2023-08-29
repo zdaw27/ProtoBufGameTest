@@ -7,7 +7,15 @@ class NPC_MoveState : FSMState<NPC> {
     Random r = new Random();
     public override void Enter(NPC npc) {
         sw.Restart();
-        npc.dir = (Direction)r.Next(0, 4);
+        if(npc.dir.Length() > 0f)
+        {
+            npc.dir *= -1f;
+        }
+        else
+        {
+            npc.dir = new Vector2((float)r.NextDouble(), (float)r.NextDouble());
+            npc.dir = Vector2.Normalize(npc.dir);
+        }
         npc.isMoving = true;
     }
     public override void Update(NPC npc) {

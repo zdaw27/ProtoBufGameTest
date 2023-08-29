@@ -43,23 +43,7 @@ abstract class CharacterController : TickBase {
                 //    pc.SetPos(new Vector2(pc.pos.X, pc.pos.Y - (elapsedTime / 1000) * pc.stat.SPEED));
                 //}
 
-                if (pc.dir == Direction.Right)
-                {
-                    pc.SetPos(new Vector2(pc.pos.X + 0.2f * pc.stat.SPEED, pc.pos.Y));
-                }
-                else if (pc.dir == Direction.Left)
-                {
-                    pc.SetPos(new Vector2(pc.pos.X - 0.2f * pc.stat.SPEED, pc.pos.Y));
-                }
-                else if (pc.dir == Direction.Up)
-                {
-                    pc.SetPos(new Vector2(pc.pos.X, pc.pos.Y + 0.2f * pc.stat.SPEED));
-                }
-                else if (pc.dir == Direction.Down)
-                {
-                    pc.SetPos(new Vector2(pc.pos.X, pc.pos.Y - 0.2f * pc.stat.SPEED));
-                }
-
+                pc.SetPos(pc.pos + pc.stat.SPEED * pc.dir * 0.2f);
 
                 BroadCast_RefreshPos(pc);
             }
@@ -98,8 +82,9 @@ abstract class CharacterController : TickBase {
     public void BroadCast_MoveStart(Character caster) {
         var protocol = new MoveStart_B2C {
             OBJECT_ID = caster.OBJECT_ID,
-            Direction = (int)caster.dir,
-        };
+            Dir_x = caster.dir.X,
+            Dir_y = caster.dir.Y,
+    };
 
         caster.isMoving = true;
 
