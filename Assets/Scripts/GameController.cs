@@ -21,50 +21,7 @@ public class GameController : MonoSingleton<GameController>
 
         Debug.Log("Session Server Connected!");
 
-        Task.Run(() => {
-            while (true)
-            {
-                if (battleHandler == null)
-                    continue;
-
-                if (Input.GetKeyDown(KeyCode.UpArrow))
-                {
-                    battleHandler.SendPacket(new MoveStart_C2B
-                    {
-                        Direction = (int)Direction.Up,
-                    });
-
-                    Debug.Log("Send : [MoveStart_C2B]");
-                }
-                else if (Input.GetKeyDown(KeyCode.DownArrow))
-                {
-                    battleHandler.SendPacket(new MoveStart_C2B
-                    {
-                        Direction = (int)Direction.Down,
-                    });
-
-                    Debug.Log("Send : [MoveStart_C2B]");
-                }
-                else if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    battleHandler.SendPacket(new MoveEnd_C2B
-                    {
-                    });
-
-                    Debug.Log("Send : [MoveEnd_C2B]");
-                }
-                else if (Input.GetKeyDown(KeyCode.R))
-                {
-                    battleHandler.SendPacket(new RestAPI_REQ_C2S
-                    {
-                    });
-
-                    Debug.Log("Send : [RestAPI_REQ_C2S]");
-                }
-
-
-            }
-        });
+       
 
         sessionHandler = gameObject.AddComponent<TcpHandler>();
         sessionHandler.InitHandler(tcpClient, 0);
@@ -91,6 +48,47 @@ public class GameController : MonoSingleton<GameController>
         ProtocolManager.Instance.Register();
         ProtocolDispatcher.Instance.Register();
         StartGame();
+    }
+
+    private void Update()
+    {
+        if (battleHandler == null)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            battleHandler.SendPacket(new MoveStart_C2B
+            {
+                Direction = (int)Direction.Up,
+            });
+
+            Debug.Log("Send : [MoveStart_C2B]");
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            battleHandler.SendPacket(new MoveStart_C2B
+            {
+                Direction = (int)Direction.Down,
+            });
+
+            Debug.Log("Send : [MoveStart_C2B]");
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            battleHandler.SendPacket(new MoveEnd_C2B
+            {
+            });
+
+            Debug.Log("Send : [MoveEnd_C2B]");
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            battleHandler.SendPacket(new RestAPI_REQ_C2S
+            {
+            });
+
+            Debug.Log("Send : [RestAPI_REQ_C2S]");
+        }
     }
 
     async void Spawn()
@@ -130,11 +128,14 @@ public class GameController : MonoSingleton<GameController>
         clientObjects[objectID].Hit(damage);
     }
 
-    public void ClientObjectSpawn(long objectID)
+    public void ClientObjectSpawn(long objectID, Vector2 pos)
     {
         if (!clientObjects.ContainsKey(objectID))
         {
             clientObjects.Add(objectID, GameObject.Instantiate(clientObjectPrefab).GetComponent<ClientObject>());
+            
         }
+
+        clientObjects[objectID].transform.position = pos;
     }
 }

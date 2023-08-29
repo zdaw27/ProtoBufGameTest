@@ -15,6 +15,7 @@ abstract class CharacterController : TickBase {
     }
 
     protected long elapsedTime = 0;
+    protected float deltaTime = 0;
 
     public override void Update() {
         if (sw.IsRunning) {
@@ -24,6 +25,7 @@ abstract class CharacterController : TickBase {
 
             elapsedTime = sw.ElapsedMilliseconds;
             sw.Stop();
+            
         }
 
         sw.Start();
@@ -31,18 +33,20 @@ abstract class CharacterController : TickBase {
         #region move
         Parallel.ForEach(characterList, (pc) => {
             if (pc.isMoving) {
-                if (pc.dir == Direction.Right) {
-                    pc.SetPos(new Vector2(pc.pos.X + (elapsedTime / 1000) * pc.stat.SPEED, pc.pos.Y));
-                } else if (pc.dir == Direction.Left) {
-                    pc.SetPos(new Vector2(pc.pos.X - (elapsedTime / 1000) * pc.stat.SPEED, pc.pos.Y));
-                } else if (pc.dir == Direction.Up) {
-                    pc.SetPos(new Vector2(pc.pos.X, pc.pos.Y + (elapsedTime / 1000) * pc.stat.SPEED));
-                } else if (pc.dir == Direction.Down) {
-                    pc.SetPos(new Vector2(pc.pos.X, pc.pos.Y - (elapsedTime / 1000) * pc.stat.SPEED));
-                }
+                //if (pc.dir == Direction.Right) {
+                //    pc.SetPos(new Vector2(pc.pos.X + (elapsedTime / 1000) * pc.stat.SPEED, pc.pos.Y));
+                //} else if (pc.dir == Direction.Left) {
+                //    pc.SetPos(new Vector2(pc.pos.X - (elapsedTime / 1000) * pc.stat.SPEED, pc.pos.Y));
+                //} else if (pc.dir == Direction.Up) {
+                //    pc.SetPos(new Vector2(pc.pos.X, pc.pos.Y + (elapsedTime / 1000) * pc.stat.SPEED));
+                //} else if (pc.dir == Direction.Down) {
+                //    pc.SetPos(new Vector2(pc.pos.X, pc.pos.Y - (elapsedTime / 1000) * pc.stat.SPEED));
+                //}
 
+                
                 BroadCast_RefreshPos(pc);
             }
+            
         });
 
         //Barrier Lock

@@ -111,7 +111,7 @@ class ProtocolDispatcher : MonoSingleton<ProtocolDispatcher>{
             action = (IProtocol protocol, TcpHandler handler) => {
                 var cast = protocol as ChangePos_B2C;
                 Debug.Log($"Receive : [ChangePos_B2C], OBJECT_ID : {cast.OBJECT_ID}");
-                GameController.Instance.ClientObjectSpawn(cast.OBJECT_ID);
+                GameController.Instance.ClientObjectSpawn(cast.OBJECT_ID, new Vector2(cast.Pos_x, cast.Pos_y));
             };
         } else if (dummyProtocol is RestAPI_RES_S2C) {
             action = (IProtocol protocol, TcpHandler handler) => {

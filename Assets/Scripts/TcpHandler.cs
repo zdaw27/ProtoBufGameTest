@@ -26,6 +26,10 @@ public class TcpHandler : TickBase {
 
     async void ProcessReceive() {
         while (true) {
+
+            if (stopProcess)
+                return;
+
             int headerBytesReceived = 0;
             try {
                 while (headerBytesReceived < Const.PACKET_HEADER_LENGTH) {
@@ -75,8 +79,7 @@ public class TcpHandler : TickBase {
                 Array.Resize(ref receiveBuffer, Const.RECEIVE_BUFFER_SIZE);
             }
 
-            if (stopProcess)
-                return;
+            
         }
     }
 

@@ -18,6 +18,8 @@ class PlayerCharacterController : CharacterController {
             SPEED = 1,
         };
 
+        
+
         PlayerCharacter pc = new PlayerCharacter(stat, startPoint);
         pc.CharacterController = this;
         pc.OBJECT_ID = zoneController.GetObjectID();
