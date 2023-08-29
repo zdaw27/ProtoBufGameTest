@@ -46,6 +46,11 @@ partial class ProtocolDispatcher : Singleton<ProtocolDispatcher> {
                 Console.WriteLine("ZONE ID : " + cast.ZONE_ID);
                 battleHandler.ZONE_ID = cast.ZONE_ID;
                 BattleServer.GetInstance().AddClient(battleHandler);
+                battleHandler.SendPacket(new ClientObejctIDInfo { 
+                
+                    OBJECT_ID = battleHandler.PlayerCharacter.OBJECT_ID
+                });
+                
             };
         } else if (dummyProtocol is MoveStart_C2B) {
             action = (IProtocol protocol, TcpHandler handler) => {

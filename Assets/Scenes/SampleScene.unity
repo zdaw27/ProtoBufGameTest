@@ -236,7 +236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5fdd85946e8bb4685bd7956786bd48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientObjectPrefab: {fileID: 8487958948459741767, guid: 4c8702ba4ded7174f92f8754dfade75d, type: 3}
+  npcObjectPrefab: {fileID: 6016830974434958932, guid: 15ab3cb881195d94fbccb8e98fdaa86a, type: 3}
+  userObjectPrefab: {fileID: 8487958948459741767, guid: 4c8702ba4ded7174f92f8754dfade75d, type: 3}
 --- !u!4 &1577056494
 Transform:
   m_ObjectHideFlags: 0

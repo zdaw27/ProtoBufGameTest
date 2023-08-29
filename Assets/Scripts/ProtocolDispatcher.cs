@@ -96,7 +96,17 @@ class ProtocolDispatcher : MonoSingleton<ProtocolDispatcher>{
 
                 Debug.Log("Battle Server Connected!");
             };
-        } else if (dummyProtocol is MoveStart_B2C) {
+
+        }
+        else if (dummyProtocol is ClientObejctIDInfo)
+        {
+            action = (IProtocol protocol, TcpHandler handler) => {
+                var cast = protocol as ClientObejctIDInfo;
+                GameController.Instance.ClientUserObjectSpawn(cast.OBJECT_ID, Vector2.zero);
+                Debug.Log("Receive : [ClientObejctIDInfo]");
+            };
+        }
+        else if (dummyProtocol is MoveStart_B2C) {
             action = (IProtocol protocol, TcpHandler handler) => {
                 var cast = protocol as MoveStart_B2C;
                 Debug.Log("Receive : [MoveStart_B2C]");

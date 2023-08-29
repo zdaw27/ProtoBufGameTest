@@ -13,7 +13,9 @@ public class GameController : MonoSingleton<GameController>
     public static TcpHandler battleHandler = null;
     private Dictionary<long, ClientObject> clientObjects = null;
     [SerializeField]
-    private GameObject clientObjectPrefab;
+    private GameObject npcObjectPrefab;
+    [SerializeField]
+    private GameObject userObjectPrefab;
 
     private void StartGame()
     {
@@ -118,13 +120,6 @@ public class GameController : MonoSingleton<GameController>
         }
     }
 
-    async void Spawn()
-    {
-        clientObjects.Add(1, GameObject.Instantiate(clientObjectPrefab).GetComponent<ClientObject>());
-        clientObjects.Add(2, GameObject.Instantiate(clientObjectPrefab).GetComponent<ClientObject>());
-        clientObjects.Add(3, GameObject.Instantiate(clientObjectPrefab).GetComponent<ClientObject>());
-    }
-
     private void OnDestroy()
     {
         sessionHandler.StopProcess();
@@ -155,14 +150,22 @@ public class GameController : MonoSingleton<GameController>
         clientObjects[objectID].Hit(damage);
     }
 
+    public void ClientUserObjectSpawn(long objectID, Vector2 pos)
+    {
+        if (!clientObjects.ContainsKey(objectID))
+        {
+            clientObjects.Add(objectID, GameObject.Instantiate(userObjectPrefab).GetComponent<ClientObject>());
+
+        }
+        clientObjects[objectID].transform.position = pos;
+    }
+
     public void ClientObjectSpawn(long objectID, Vector2 pos)
     {
         if (!clientObjects.ContainsKey(objectID))
         {
-            clientObjects.Add(objectID, GameObject.Instantiate(clientObjectPrefab).GetComponent<ClientObject>());
-            
+            clientObjects.Add(objectID, GameObject.Instantiate(npcObjectPrefab).GetComponent<ClientObject>());
         }
-
         clientObjects[objectID].transform.position = pos;
     }
 }
