@@ -23,25 +23,7 @@ class NPCController : CharacterController {
                 var npc = character as NPC;
                 npc.FSM.Update();
 
-                if (npc.dir == Direction.Right)
-                {
-                    npc.SetPos(new Vector2(npc.pos.X + 0.01f * npc.stat.SPEED, npc.pos.Y));
-                }
-                else if (npc.dir == Direction.Left)
-                {
-                    npc.SetPos(new Vector2(npc.pos.X - 0.01f * npc.stat.SPEED, npc.pos.Y));
-                }
-                else if (npc.dir == Direction.Up)
-                {
-                    npc.SetPos(new Vector2(npc.pos.X, npc.pos.Y + 0.01f * npc.stat.SPEED));
-                }
-                else if (npc.dir == Direction.Down)
-                {
-                    npc.SetPos(new Vector2(npc.pos.X, npc.pos.Y - 0.01f * npc.stat.SPEED));
-                }
-
-
-                Console.WriteLine($"CharacterPosition : x {npc.pos.X} y {npc.pos.Y}");
+                
 
             }
         }

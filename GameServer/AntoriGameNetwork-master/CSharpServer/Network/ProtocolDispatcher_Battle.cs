@@ -60,6 +60,7 @@ partial class ProtocolDispatcher : Singleton<ProtocolDispatcher> {
                 var battleHandler = handler as TcpHandler_Battle;
 
                 battleHandler.PlayerCharacter.MoveStart((Direction)cast.Direction);
+                battleHandler.PlayerCharacter.isMoving = true;
 
                 battleHandler.PlayerCharacter.CharacterController.BroadCast_MoveStart(battleHandler.PlayerCharacter);
             };
@@ -74,7 +75,7 @@ partial class ProtocolDispatcher : Singleton<ProtocolDispatcher> {
                 }
 
                 var battleHandler = handler as TcpHandler_Battle;
-
+                battleHandler.PlayerCharacter.isMoving = false;
                 battleHandler.PlayerCharacter.CharacterController.BroadCast_MoveEnd(battleHandler.PlayerCharacter);
 
                 Console.WriteLine("SendZone : [MoveEnd_B2C]");

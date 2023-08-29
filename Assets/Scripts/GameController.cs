@@ -73,21 +73,48 @@ public class GameController : MonoSingleton<GameController>
 
             Debug.Log("Send : [MoveStart_C2B]");
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            battleHandler.SendPacket(new MoveEnd_C2B
+            battleHandler.SendPacket(new MoveStart_C2B
             {
+                Direction = (int)Direction.Right,
             });
+
+            Debug.Log("Send : [MoveStart_C2B]");
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            battleHandler.SendPacket(new MoveStart_C2B
+            {
+                Direction = (int)Direction.Left,
+            });
+
+            Debug.Log("Send : [MoveStart_C2B]");
+        }
+
+        if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            battleHandler.SendPacket(new MoveEnd_C2B());
 
             Debug.Log("Send : [MoveEnd_C2B]");
         }
-        else if (Input.GetKeyDown(KeyCode.R))
+        else if (Input.GetKeyUp(KeyCode.DownArrow))
         {
-            battleHandler.SendPacket(new RestAPI_REQ_C2S
-            {
-            });
+            battleHandler.SendPacket(new MoveEnd_C2B());
 
-            Debug.Log("Send : [RestAPI_REQ_C2S]");
+            Debug.Log("Send : [MoveEnd_C2B]");
+        }
+        else if (Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            battleHandler.SendPacket(new MoveEnd_C2B());
+
+            Debug.Log("Send : [MoveEnd_C2B]");
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            battleHandler.SendPacket(new MoveEnd_C2B());
+
+            Debug.Log("Send : [MoveEnd_C2B]");
         }
     }
 
