@@ -26,7 +26,7 @@ class Character : GameObject {
     public Vector2 pos {
         get; private set;
     }
-    public Direction dir {
+    public Vector2 dir {
         get; set;
     }
 
@@ -51,7 +51,7 @@ class Character : GameObject {
         pos = dest;
     }
 
-    public void MoveStart(Direction dir) {
+    public void MoveStart(Vector2 dir) {
         this.dir = dir;
     }
 

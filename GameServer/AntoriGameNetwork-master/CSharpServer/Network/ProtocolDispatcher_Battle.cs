@@ -64,7 +64,7 @@ partial class ProtocolDispatcher : Singleton<ProtocolDispatcher> {
 
                 var battleHandler = handler as TcpHandler_Battle;
 
-                battleHandler.PlayerCharacter.MoveStart((Direction)cast.Direction);
+                battleHandler.PlayerCharacter.MoveStart(new System.Numerics.Vector2(cast.Pos_x, cast.Pos_y));
                 battleHandler.PlayerCharacter.isMoving = true;
 
                 battleHandler.PlayerCharacter.CharacterController.BroadCast_MoveStart(battleHandler.PlayerCharacter);

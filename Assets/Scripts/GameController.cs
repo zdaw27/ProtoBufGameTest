@@ -57,67 +57,45 @@ public class GameController : MonoSingleton<GameController>
         if (battleHandler == null)
             return;
 
+        Vector2 inputDir = Vector2.zero;
+
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            battleHandler.SendPacket(new MoveStart_C2B
-            {
-                Direction = (int)Direction.Up,
-            });
-
-            Debug.Log("Send : [MoveStart_C2B]");
+            inputDir += Vector2.up;
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            inputDir += Vector2.down;
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            inputDir += Vector2.right;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            inputDir += Vector2.left;
+        }
+
+        inputDir.Normalize();
+
+        if (Vector2.SqrMagnitude(inputDir) > 0f)
         {
             battleHandler.SendPacket(new MoveStart_C2B
             {
-                Direction = (int)Direction.Down,
-            });
+                Pos_x = inputDir.x,
+                Pos_y = inputDir.y
+
+            }) ;
 
             Debug.Log("Send : [MoveStart_C2B]");
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            battleHandler.SendPacket(new MoveStart_C2B
-            {
-                Direction = (int)Direction.Right,
-            });
-
-            Debug.Log("Send : [MoveStart_C2B]");
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            battleHandler.SendPacket(new MoveStart_C2B
-            {
-                Direction = (int)Direction.Left,
-            });
-
-            Debug.Log("Send : [MoveStart_C2B]");
-        }
-
-        if (Input.GetKeyUp(KeyCode.UpArrow))
+        else
         {
             battleHandler.SendPacket(new MoveEnd_C2B());
 
             Debug.Log("Send : [MoveEnd_C2B]");
         }
-        else if (Input.GetKeyUp(KeyCode.DownArrow))
-        {
-            battleHandler.SendPacket(new MoveEnd_C2B());
-
-            Debug.Log("Send : [MoveEnd_C2B]");
-        }
-        else if (Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            battleHandler.SendPacket(new MoveEnd_C2B());
-
-            Debug.Log("Send : [MoveEnd_C2B]");
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            battleHandler.SendPacket(new MoveEnd_C2B());
-
-            Debug.Log("Send : [MoveEnd_C2B]");
-        }
+        
     }
 
     private void OnDestroy()

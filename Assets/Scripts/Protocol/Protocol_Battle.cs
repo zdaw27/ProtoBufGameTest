@@ -93,9 +93,10 @@ class MoveStart_C2B : IProtocol {
 	public int PACKET_LENGTH = 0;
 	public int PROTOCOL_ID = 4;
 	//MEMBER
-	public int Direction;
+	public float Pos_x;
+	public float Pos_y;
 	public void SetPacketLength() {
-		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(int);
+		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(float) + sizeof(float);
 	}
 	public int GetPacketLength() {
 		return PACKET_LENGTH;
@@ -104,13 +105,15 @@ class MoveStart_C2B : IProtocol {
 		return PROTOCOL_ID;
 	}
 	public void Read(BinaryReader br) {
-		Direction = br.ReadInt32();
+		Pos_x = br.ReadSingle();
+		Pos_y = br.ReadSingle();
 	}
 	public void Write(BinaryWriter bw) {
 		SetPacketLength();
 		bw.Write(PACKET_LENGTH);
 		bw.Write(PROTOCOL_ID);
-		bw.Write(Direction);
+		bw.Write(Pos_x);
+		bw.Write(Pos_y);
 	}
 }
 class MoveEnd_C2B : IProtocol {
@@ -141,9 +144,10 @@ class MoveStart_B2C : IProtocol {
 	public int PROTOCOL_ID = 6;
 	//MEMBER
 	public long OBJECT_ID;
-	public int Direction;
+	public float Dir_x;
+	public float Dir_y;
 	public void SetPacketLength() {
-		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(long) + sizeof(int);
+		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(long) + sizeof(float) + sizeof(float);
 	}
 	public int GetPacketLength() {
 		return PACKET_LENGTH;
@@ -153,14 +157,16 @@ class MoveStart_B2C : IProtocol {
 	}
 	public void Read(BinaryReader br) {
 		OBJECT_ID = br.ReadInt64();
-		Direction = br.ReadInt32();
+		Dir_x = br.ReadSingle();
+		Dir_y = br.ReadSingle();
 	}
 	public void Write(BinaryWriter bw) {
 		SetPacketLength();
 		bw.Write(PACKET_LENGTH);
 		bw.Write(PROTOCOL_ID);
 		bw.Write(OBJECT_ID);
-		bw.Write(Direction);
+		bw.Write(Dir_x);
+		bw.Write(Dir_y);
 	}
 }
 class MoveEnd_B2C : IProtocol {
@@ -169,8 +175,10 @@ class MoveEnd_B2C : IProtocol {
 	public int PROTOCOL_ID = 7;
 	//MEMBER
 	public long OBJECT_ID;
+	public float Pos_x;
+	public float Pos_y;
 	public void SetPacketLength() {
-		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(long);
+		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(long) + sizeof(float) + sizeof(float);
 	}
 	public int GetPacketLength() {
 		return PACKET_LENGTH;
@@ -180,12 +188,16 @@ class MoveEnd_B2C : IProtocol {
 	}
 	public void Read(BinaryReader br) {
 		OBJECT_ID = br.ReadInt64();
+		Pos_x = br.ReadSingle();
+		Pos_y = br.ReadSingle();
 	}
 	public void Write(BinaryWriter bw) {
 		SetPacketLength();
 		bw.Write(PACKET_LENGTH);
 		bw.Write(PROTOCOL_ID);
 		bw.Write(OBJECT_ID);
+		bw.Write(Pos_x);
+		bw.Write(Pos_y);
 	}
 }
 class ChangePos_B2C : IProtocol {

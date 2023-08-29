@@ -45,19 +45,19 @@ abstract class CharacterController : TickBase {
 
                 if (pc.dir == Direction.Right)
                 {
-                    pc.SetPos(new Vector2(pc.pos.X + 0.01f * pc.stat.SPEED, pc.pos.Y));
+                    pc.SetPos(new Vector2(pc.pos.X + 0.2f * pc.stat.SPEED, pc.pos.Y));
                 }
                 else if (pc.dir == Direction.Left)
                 {
-                    pc.SetPos(new Vector2(pc.pos.X - 0.01f * pc.stat.SPEED, pc.pos.Y));
+                    pc.SetPos(new Vector2(pc.pos.X - 0.2f * pc.stat.SPEED, pc.pos.Y));
                 }
                 else if (pc.dir == Direction.Up)
                 {
-                    pc.SetPos(new Vector2(pc.pos.X, pc.pos.Y + 0.01f * pc.stat.SPEED));
+                    pc.SetPos(new Vector2(pc.pos.X, pc.pos.Y + 0.2f * pc.stat.SPEED));
                 }
                 else if (pc.dir == Direction.Down)
                 {
-                    pc.SetPos(new Vector2(pc.pos.X, pc.pos.Y - 0.01f * pc.stat.SPEED));
+                    pc.SetPos(new Vector2(pc.pos.X, pc.pos.Y - 0.2f * pc.stat.SPEED));
                 }
 
 
