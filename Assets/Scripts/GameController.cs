@@ -134,22 +134,26 @@ public class GameController : MonoSingleton<GameController>
         clientObjects[objectID].Hit(damage);
     }
 
-    public void ClientUserObjectSpawn(long objectID, Vector2 pos)
+    public void ClientUpdateObjectInfo(long objectID, IProtocol protocol)
     {
-        if (!clientObjects.ContainsKey(objectID))
-        {
-            clientObjects.Add(objectID, GameObject.Instantiate(userObjectPrefab).GetComponent<ClientObject>());
+        ClientObejctIDInfo_B2C info = protocol as ClientObejctIDInfo_B2C;
+        SpawnObject(objectID, (ObjectType)info.ObjType);
+        clientObjects[objectID].UpdateObjectInfo(info);
+    }
 
-        }
+    public void ClientUpdatePos(long objectID, Vector2 pos)
+    {
         clientObjects[objectID].transform.position = pos;
     }
 
-    public void ClientObjectSpawn(long objectID, Vector2 pos)
+    private void SpawnObject(long objectID, ObjectType type)
     {
         if (!clientObjects.ContainsKey(objectID))
         {
-            clientObjects.Add(objectID, GameObject.Instantiate(npcObjectPrefab).GetComponent<ClientObject>());
+            if(type == ObjectType.NPCObject)
+                clientObjects.Add(objectID, GameObject.Instantiate(npcObjectPrefab).GetComponent<ClientObject>());
+            else if(type == ObjectType.PlayerObject)
+                clientObjects.Add(objectID, GameObject.Instantiate(userObjectPrefab).GetComponent<ClientObject>());
         }
-        clientObjects[objectID].transform.position = pos;
     }
 }

@@ -7,4 +7,9 @@ class GameObject {
         get;
         set;
     }
+
+    public ObjectType type
+    {
+        get; set;
+    }
 }

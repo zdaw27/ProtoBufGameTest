@@ -33,6 +33,8 @@ class Character : GameObject {
         get; set;
     }
 
+    
+
     public STAT stat {
         get; set;
     }
@@ -77,7 +79,7 @@ class Character : GameObject {
     }
 
     public void ReceiveAttack(Character attacker) {
-        ReceiveDamage(attacker.stat.ATTACK - this.stat.DEF);
+        ReceiveDamage(10);
         CharacterController.BroadCast_ReceiveAttack(attacker, this);
     }
 
@@ -86,7 +88,7 @@ class Character : GameObject {
     }
 
     void ChangeHP(int amount_change) {
-        stat.HP += amount_change;
+        stat.HP -= amount_change;
 
         if (stat.HP <= 0)
             OnDead();

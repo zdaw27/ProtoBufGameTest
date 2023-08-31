@@ -23,6 +23,7 @@ class PlayerCharacterController : CharacterController {
         PlayerCharacter pc = new PlayerCharacter(stat, startPoint);
         pc.CharacterController = this;
         pc.OBJECT_ID = zoneController.GetObjectID();
+        pc.type = ObjectType.PlayerObject;
 
         characterList.Add(pc);
 

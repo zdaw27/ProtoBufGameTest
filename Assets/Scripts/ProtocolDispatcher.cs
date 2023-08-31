@@ -98,11 +98,11 @@ class ProtocolDispatcher : MonoSingleton<ProtocolDispatcher>{
             };
 
         }
-        else if (dummyProtocol is ClientObejctIDInfo)
+        else if (dummyProtocol is ClientObejctIDInfo_B2C)
         {
             action = (IProtocol protocol, TcpHandler handler) => {
-                var cast = protocol as ClientObejctIDInfo;
-                GameController.Instance.ClientUserObjectSpawn(cast.OBJECT_ID, Vector2.zero);
+                var cast = protocol as ClientObejctIDInfo_B2C;
+                GameController.Instance.ClientUpdateObjectInfo(cast.OBJECT_ID, protocol);
                 Debug.Log("Receive : [ClientObejctIDInfo]");
             };
         }
@@ -121,7 +121,7 @@ class ProtocolDispatcher : MonoSingleton<ProtocolDispatcher>{
             action = (IProtocol protocol, TcpHandler handler) => {
                 var cast = protocol as ChangePos_B2C;
                 Debug.Log($"Receive : [ChangePos_B2C], OBJECT_ID : {cast.OBJECT_ID}");
-                GameController.Instance.ClientObjectSpawn(cast.OBJECT_ID, new Vector2(cast.Pos_x, cast.Pos_y));
+                GameController.Instance.ClientUpdatePos(cast.OBJECT_ID, new Vector2(cast.Pos_x, cast.Pos_y));
             };
         } else if (dummyProtocol is RestAPI_RES_S2C) {
             action = (IProtocol protocol, TcpHandler handler) => {
@@ -137,6 +137,8 @@ class ProtocolDispatcher : MonoSingleton<ProtocolDispatcher>{
                 var cast = protocol as Attack_B2C;
                 Debug.Log("Receive : [Attack_B2C]");
 
+                GameController.Instance.ClientObjectAttack(cast.OBJECT_ID);
+
                 Debug.Log($"Attacker : { cast.OBJECT_ID}");
             };
         }
@@ -145,6 +147,8 @@ class ProtocolDispatcher : MonoSingleton<ProtocolDispatcher>{
             action = (IProtocol protocol, TcpHandler handler) => {
                 var cast = protocol as Hit_B2C;
                 Debug.Log("Receive : [Hit_B2C]");
+
+                GameController.Instance.ClientObjectHit(cast.OBJECT_ID, cast.Damage);
 
                 Debug.Log($"Hitter : { cast.OBJECT_ID} Damage : {cast.Damage}");
             };

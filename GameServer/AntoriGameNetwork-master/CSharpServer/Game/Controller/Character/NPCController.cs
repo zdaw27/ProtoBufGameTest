@@ -42,6 +42,7 @@ class NPCController : CharacterController {
         FSM<NPC> FSM = new FSM<NPC>();
         npc.FSM = FSM;
         npc.OBJECT_ID = zoneController.GetObjectID();
+        npc.type = ObjectType.NPCObject;
         FSM.Configure(npc, new NPC_IdleState());
 
         npc.CharacterController = this;

@@ -10,7 +10,11 @@ public class ClientObject : MonoBehaviour
     private Animator animator;
     [SerializeField]
     private Transform transform;
+    
 
+    private FloatingHealthBar healthBar;
+
+   
 
     public void Move(float x, float y)
     {
@@ -30,6 +34,16 @@ public class ClientObject : MonoBehaviour
             Vector2.MoveTowards(transform.position, dest, Time.deltaTime);
             yield return null;
         }
+    }
+
+    public void UpdateObjectInfo(IProtocol protocol)
+    {
+        ClientObejctIDInfo_B2C info = protocol as ClientObejctIDInfo_B2C;
+        if(healthBar == null)
+        {
+            healthBar = FloatingHealthBarManager.Instance.CreateHealthBar(transform);
+        }
+        healthBar.UpdateHpBar((float)info.HP * 0.01f);
     }
 
     public void EndMove(float x, float y)

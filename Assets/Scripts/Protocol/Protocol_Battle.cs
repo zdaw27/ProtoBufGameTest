@@ -231,15 +231,16 @@ class ChangePos_B2C : IProtocol {
 		bw.Write(Pos_y);
 	}
 }
-class ClientObejctIDInfo : IProtocol {
+class ClientObejctIDInfo_B2C : IProtocol {
 	//COMMON
 	public int PACKET_LENGTH = 0;
 	public int PROTOCOL_ID = 9;
 	//MEMBER
 	public long OBJECT_ID;
 	public int HP;
+	public int ObjType;
 	public void SetPacketLength() {
-		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(long) + sizeof(int);
+		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(long) + sizeof(int) + sizeof(int);
 	}
 	public int GetPacketLength() {
 		return PACKET_LENGTH;
@@ -250,6 +251,7 @@ class ClientObejctIDInfo : IProtocol {
 	public void Read(BinaryReader br) {
 		OBJECT_ID = br.ReadInt64();
 		HP = br.ReadInt32();
+		ObjType = br.ReadInt32();
 	}
 	public void Write(BinaryWriter bw) {
 		SetPacketLength();
@@ -257,6 +259,7 @@ class ClientObejctIDInfo : IProtocol {
 		bw.Write(PROTOCOL_ID);
 		bw.Write(OBJECT_ID);
 		bw.Write(HP);
+		bw.Write(ObjType);
 	}
 }
 class Hit_B2C : IProtocol {

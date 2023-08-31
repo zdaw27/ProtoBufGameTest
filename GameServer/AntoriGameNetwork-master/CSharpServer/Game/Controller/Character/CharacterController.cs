@@ -35,6 +35,7 @@ abstract class CharacterController : TickBase {
         Parallel.ForEach(characterList, (pc) => {
 
             pc.Update();
+            BroadCast_CharacterInfo(pc);
 
             if (pc.isMoving) {
                 //if (pc.dir == Direction.Right) {
@@ -120,6 +121,18 @@ abstract class CharacterController : TickBase {
         zoneController.SendPacketToZone(protocol);
     }
 
+    public void BroadCast_CharacterInfo(Character caster)
+    {
+        var protocol = new ClientObejctIDInfo_B2C
+        {
+            OBJECT_ID = caster.OBJECT_ID,
+            HP = caster.stat.HP,
+            ObjType = (int)caster.type
+        };
+
+        zoneController.SendPacketToZone(protocol);
+    }
+
     public void BroadCast_AttackTo(Character caster)
     {
         var protocol = new Attack_B2C
@@ -137,6 +150,7 @@ abstract class CharacterController : TickBase {
         BroadCast_AttackTo(attacker);
         if (target != null)
         {
+            attacker.AttackTo(target);
             BroadCast_ReceiveAttack(attacker, target);
         }
     }

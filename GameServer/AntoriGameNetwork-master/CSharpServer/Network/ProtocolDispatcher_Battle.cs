@@ -46,7 +46,7 @@ partial class ProtocolDispatcher : Singleton<ProtocolDispatcher> {
                 Console.WriteLine("ZONE ID : " + cast.ZONE_ID);
                 battleHandler.ZONE_ID = cast.ZONE_ID;
                 BattleServer.GetInstance().AddClient(battleHandler);
-                battleHandler.SendPacket(new ClientObejctIDInfo {
+                battleHandler.SendPacket(new ClientObejctIDInfo_B2C {
 
                     OBJECT_ID = battleHandler.PlayerCharacter.OBJECT_ID
                 });
