@@ -131,6 +131,24 @@ class ProtocolDispatcher : MonoSingleton<ProtocolDispatcher>{
                 Debug.Log(cast.Info);
             };
         }
+        else if (dummyProtocol is Attack_B2C)
+        {
+            action = (IProtocol protocol, TcpHandler handler) => {
+                var cast = protocol as Attack_B2C;
+                Debug.Log("Receive : [Attack_B2C]");
+
+                Debug.Log($"Attacker : { cast.OBJECT_ID}");
+            };
+        }
+        else if (dummyProtocol is Hit_B2C)
+        {
+            action = (IProtocol protocol, TcpHandler handler) => {
+                var cast = protocol as Hit_B2C;
+                Debug.Log("Receive : [Hit_B2C]");
+
+                Debug.Log($"Hitter : { cast.OBJECT_ID} Damage : {cast.Damage}");
+            };
+        }
 
         return action;
     }

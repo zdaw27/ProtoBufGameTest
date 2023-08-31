@@ -19,3 +19,9 @@ public enum Direction {
     Left,
     Right,
 }
+
+public enum ObjectType
+{
+    PlayerObject,
+    NPCObject,
+}

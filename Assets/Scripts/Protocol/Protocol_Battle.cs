@@ -237,6 +237,87 @@ class ClientObejctIDInfo : IProtocol {
 	public int PROTOCOL_ID = 9;
 	//MEMBER
 	public long OBJECT_ID;
+	public int HP;
+	public void SetPacketLength() {
+		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(long) + sizeof(int);
+	}
+	public int GetPacketLength() {
+		return PACKET_LENGTH;
+	}
+	public int GetProtocol_ID() {
+		return PROTOCOL_ID;
+	}
+	public void Read(BinaryReader br) {
+		OBJECT_ID = br.ReadInt64();
+		HP = br.ReadInt32();
+	}
+	public void Write(BinaryWriter bw) {
+		SetPacketLength();
+		bw.Write(PACKET_LENGTH);
+		bw.Write(PROTOCOL_ID);
+		bw.Write(OBJECT_ID);
+		bw.Write(HP);
+	}
+}
+class Hit_B2C : IProtocol {
+	//COMMON
+	public int PACKET_LENGTH = 0;
+	public int PROTOCOL_ID = 10;
+	//MEMBER
+	public long OBJECT_ID;
+	public int Damage;
+	public void SetPacketLength() {
+		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(long) + sizeof(int);
+	}
+	public int GetPacketLength() {
+		return PACKET_LENGTH;
+	}
+	public int GetProtocol_ID() {
+		return PROTOCOL_ID;
+	}
+	public void Read(BinaryReader br) {
+		OBJECT_ID = br.ReadInt64();
+		Damage = br.ReadInt32();
+	}
+	public void Write(BinaryWriter bw) {
+		SetPacketLength();
+		bw.Write(PACKET_LENGTH);
+		bw.Write(PROTOCOL_ID);
+		bw.Write(OBJECT_ID);
+		bw.Write(Damage);
+	}
+}
+class Attack_B2C : IProtocol {
+	//COMMON
+	public int PACKET_LENGTH = 0;
+	public int PROTOCOL_ID = 11;
+	//MEMBER
+	public long OBJECT_ID;
+	public void SetPacketLength() {
+		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(long);
+	}
+	public int GetPacketLength() {
+		return PACKET_LENGTH;
+	}
+	public int GetProtocol_ID() {
+		return PROTOCOL_ID;
+	}
+	public void Read(BinaryReader br) {
+		OBJECT_ID = br.ReadInt64();
+	}
+	public void Write(BinaryWriter bw) {
+		SetPacketLength();
+		bw.Write(PACKET_LENGTH);
+		bw.Write(PROTOCOL_ID);
+		bw.Write(OBJECT_ID);
+	}
+}
+class Attack_C2B : IProtocol {
+	//COMMON
+	public int PACKET_LENGTH = 0;
+	public int PROTOCOL_ID = 12;
+	//MEMBER
+	public long OBJECT_ID;
 	public void SetPacketLength() {
 		PACKET_LENGTH = sizeof(int) + sizeof(int) + sizeof(long);
 	}

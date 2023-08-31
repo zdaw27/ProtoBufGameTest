@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 abstract class CharacterController : TickBase {
     protected Vector2 startPoint;
@@ -32,6 +33,9 @@ abstract class CharacterController : TickBase {
 
         #region move
         Parallel.ForEach(characterList, (pc) => {
+
+            pc.Update();
+
             if (pc.isMoving) {
                 //if (pc.dir == Direction.Right) {
                 //    pc.SetPos(new Vector2(pc.pos.X + (elapsedTime / 1000) * pc.stat.SPEED, pc.pos.Y));
@@ -51,6 +55,11 @@ abstract class CharacterController : TickBase {
         });
 
         //Barrier Lock
+
+        #endregion
+
+        #region attack
+
 
         #endregion
 
@@ -106,6 +115,38 @@ abstract class CharacterController : TickBase {
             OBJECT_ID = caster.OBJECT_ID,
             Pos_x = caster.pos.X,
             Pos_y = caster.pos.Y,
+        };
+
+        zoneController.SendPacketToZone(protocol);
+    }
+
+    public void BroadCast_AttackTo(Character caster)
+    {
+        var protocol = new Attack_B2C
+        {
+            OBJECT_ID = caster.OBJECT_ID,
+        };
+
+        zoneController.SendPacketToZone(protocol);
+    }
+
+    public void TryAttack(Character attacker)
+    {
+        Character target = zoneController.npcController.characterList.Where(x => Vector2.Distance(x.pos, attacker.pos) <= 1.5f && !attacker.Equals(x)).OrderBy(x => Vector2.Distance(x.pos, attacker.pos)).FirstOrDefault();
+
+        BroadCast_AttackTo(attacker);
+        if (target != null)
+        {
+            BroadCast_ReceiveAttack(attacker, target);
+        }
+    }
+
+    public void BroadCast_ReceiveAttack(Character attacker, Character hitter)
+    {
+        var protocol = new Hit_B2C
+        {
+            OBJECT_ID = hitter.OBJECT_ID,
+            Damage = attacker.stat.ATTACK
         };
 
         zoneController.SendPacketToZone(protocol);

@@ -96,6 +96,11 @@ public class GameController : MonoSingleton<GameController>
 
             Debug.Log("Send : [MoveEnd_C2B]");
         }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            battleHandler.SendPacket(new Attack_C2B());
+        }
         
     }
 

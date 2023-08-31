@@ -46,11 +46,11 @@ partial class ProtocolDispatcher : Singleton<ProtocolDispatcher> {
                 Console.WriteLine("ZONE ID : " + cast.ZONE_ID);
                 battleHandler.ZONE_ID = cast.ZONE_ID;
                 BattleServer.GetInstance().AddClient(battleHandler);
-                battleHandler.SendPacket(new ClientObejctIDInfo { 
-                
+                battleHandler.SendPacket(new ClientObejctIDInfo {
+
                     OBJECT_ID = battleHandler.PlayerCharacter.OBJECT_ID
                 });
-                
+
             };
         } else if (dummyProtocol is MoveStart_C2B) {
             action = (IProtocol protocol, TcpHandler handler) => {
@@ -70,11 +70,13 @@ partial class ProtocolDispatcher : Singleton<ProtocolDispatcher> {
                 battleHandler.PlayerCharacter.CharacterController.BroadCast_MoveStart(battleHandler.PlayerCharacter);
             };
         } else if (dummyProtocol is MoveEnd_C2B) {
-            action = (IProtocol protocol, TcpHandler handler) => {
+            action = (IProtocol protocol, TcpHandler handler) =>
+            {
                 var cast = protocol as MoveEnd_C2B;
                 Console.WriteLine("Receive : [MoveEnd_C2B]");
 
-                if (false == IsBattleHandler(handler)) {
+                if (false == IsBattleHandler(handler))
+                {
                     Console.WriteLine("No Battle Handler!");
                     return;
                 }
@@ -84,6 +86,22 @@ partial class ProtocolDispatcher : Singleton<ProtocolDispatcher> {
                 battleHandler.PlayerCharacter.CharacterController.BroadCast_MoveEnd(battleHandler.PlayerCharacter);
 
                 Console.WriteLine("SendZone : [MoveEnd_B2C]");
+            };
+        } else if (dummyProtocol is Attack_C2B)
+        {
+            action = (IProtocol protocol, TcpHandler handler) => {
+                var cast = protocol as MoveEnd_C2B;
+                Console.WriteLine("Receive : [Attack_C2B]");
+
+                if (false == IsBattleHandler(handler))
+                {
+                    Console.WriteLine("No Battle Handler!");
+                    return;
+                }
+
+                var battleHandler = handler as TcpHandler_Battle;
+                battleHandler.PlayerCharacter.CharacterController.TryAttack(battleHandler.PlayerCharacter);
+
             };
         }
         return action;

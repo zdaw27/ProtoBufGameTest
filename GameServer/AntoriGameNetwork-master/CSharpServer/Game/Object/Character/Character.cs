@@ -23,6 +23,9 @@ class STAT {
 }
 
 class Character : GameObject {
+
+    private float attackCool = 1f;
+
     public Vector2 pos {
         get; private set;
     }
@@ -57,10 +60,25 @@ class Character : GameObject {
 
     public void AttackTo(Character target) {
         target.ReceiveAttack(this);
+        if (attackCool >= 1f)
+        {
+            attackCool = 0f;
+            CharacterController.BroadCast_AttackTo(target);
+        }
+        
+    }
+
+    public void Update()
+    {
+        if (attackCool < 1f)
+        {
+            attackCool += Program.deltaTime;
+        }
     }
 
     public void ReceiveAttack(Character attacker) {
         ReceiveDamage(attacker.stat.ATTACK - this.stat.DEF);
+        CharacterController.BroadCast_ReceiveAttack(attacker, this);
     }
 
     void ReceiveDamage(int damage) {

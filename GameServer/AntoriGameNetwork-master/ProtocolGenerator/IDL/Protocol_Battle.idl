@@ -42,4 +42,20 @@ END
 
 PACKET ClientObejctIDInfo
 	long OBJECT_ID
+	int HP
+	ObjectType ObjType
 END
+
+PACKET Hit_B2C
+	long OBJECT_ID
+	int Damage
+END
+
+PACKET Attack_B2C
+	long OBJECT_ID
+END
+
+PACKET Attack_C2B
+	long OBJECT_ID
+END
+
