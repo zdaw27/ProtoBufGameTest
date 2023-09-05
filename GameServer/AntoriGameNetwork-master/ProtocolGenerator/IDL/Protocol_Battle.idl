@@ -59,3 +59,7 @@ PACKET Attack_C2B
 	long OBJECT_ID
 END
 
+PACKET ObjectRemove_B2C
+	long OBJECT_ID
+END
+

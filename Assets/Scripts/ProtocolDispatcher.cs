@@ -153,6 +153,17 @@ class ProtocolDispatcher : MonoSingleton<ProtocolDispatcher>{
                 Debug.Log($"Hitter : { cast.OBJECT_ID} Damage : {cast.Damage}");
             };
         }
+        else if (dummyProtocol is ObjectRemove_B2C)
+        {
+            action = (IProtocol protocol, TcpHandler handler) => {
+                var cast = protocol as ObjectRemove_B2C;
+                Debug.Log("Receive : [ObjectRemove_B2C]");
+
+                GameController.Instance.ClientRemoveObject(cast.OBJECT_ID);
+
+                Debug.Log($"Remove Character : { cast.OBJECT_ID}");
+            };
+        }
 
         return action;
     }

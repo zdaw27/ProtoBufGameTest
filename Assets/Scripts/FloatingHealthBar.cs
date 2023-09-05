@@ -13,12 +13,24 @@ public class FloatingHealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (target == null)
+        {
+            FloatingHealthBarManager.Instance.RemoveHealthBar(this);
+            return;
+        }
+
         transform.position = target.position;
         transform.rotation = Camera.main.transform.rotation;
     }
 
     public void UpdateHpBar(float percent)
     {
+        if (target == null)
+        {
+            FloatingHealthBarManager.Instance.RemoveHealthBar(this);
+            return;
+        }
+
         hpBar.fillAmount = percent;
     }
 }

@@ -59,8 +59,9 @@ class NPCController : CharacterController {
         }
 
         var npc = character as NPC;
+        BroadCast_CharacterRemove(character);
         characterList.Remove(npc);
-
+        
         Console.WriteLine("NPC Dead");
     }
 }

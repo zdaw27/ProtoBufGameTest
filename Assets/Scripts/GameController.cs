@@ -119,19 +119,29 @@ public class GameController : MonoSingleton<GameController>
     {
     }
 
-    public void ClientObjectRemove(long objectID)
-    {
-        clientObjects.Remove(objectID);
-    }
-
     public void ClientObjectAttack(long objectID)
     {
-        clientObjects[objectID].Attack();
+        if (clientObjects.ContainsKey(objectID))
+            clientObjects[objectID].Attack();
+        else
+            Debug.Log("ObjectID Attack Not Found");
     }
 
     public void ClientObjectHit(long objectID, int damage)
     {
-        clientObjects[objectID].Hit(damage);
+        if (clientObjects.ContainsKey(objectID))
+            clientObjects[objectID].Hit(damage);
+        else
+            Debug.Log("ObjectID Hit Not Found");
+    }
+
+    public void ClientRemoveObject(long objectID)
+    {
+        GameObject.Destroy(clientObjects[objectID].gameObject);
+        if (clientObjects.ContainsKey(objectID))
+        {
+            clientObjects.Remove(objectID);
+        }
     }
 
     public void ClientUpdateObjectInfo(long objectID, IProtocol protocol)
@@ -155,5 +165,10 @@ public class GameController : MonoSingleton<GameController>
             else if(type == ObjectType.PlayerObject)
                 clientObjects.Add(objectID, GameObject.Instantiate(userObjectPrefab).GetComponent<ClientObject>());
         }
+    }
+
+    private void RemoveObject(long objectID)
+    {
+
     }
 }

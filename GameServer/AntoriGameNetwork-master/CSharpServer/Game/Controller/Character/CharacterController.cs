@@ -101,7 +101,17 @@ abstract class CharacterController : TickBase {
         zoneController.SendPacketToZone(protocol);
     }
 
-    public void BroadCast_MoveEnd(Character caster) {
+    public void BroadCast_CharacterRemove(Character caster)
+    {
+        var protocol = new ObjectRemove_B2C
+        {
+            OBJECT_ID = caster.OBJECT_ID,
+        };
+
+        zoneController.SendPacketToZone(protocol);
+    }
+
+        public void BroadCast_MoveEnd(Character caster) {
         var protocol = new MoveEnd_B2C {
             OBJECT_ID = caster.OBJECT_ID,
         };
